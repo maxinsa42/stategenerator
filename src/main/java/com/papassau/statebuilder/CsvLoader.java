@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author Max Schiedermeier
+ * @author Maxou
  */
 @Component
 public class CsvLoader
