@@ -36,7 +36,6 @@ public class CsvLoader
     public CsvLoader(String csvPath) throws FileNotFoundException
     {
         transitions = new LinkedHashMap<>();
-
         Scanner sc = new Scanner(new File(csvPath));
 
         //Extract symbols of first line (splice at each ",")
@@ -47,11 +46,11 @@ public class CsvLoader
         //Now that the symbals are loaded we need to extract all deuctions. Each line represents one deduction rule.
         while (sc.hasNext()) {
             //read line, splice at each "," and discard first position
-            String[] splicedLine = sc.next().split(".");
-            String[] resolvedStated = Arrays.copyOfRange(splicedLine, 1, symbols.length - 1);
+            String[] splicedLine = sc.next().split(",");
+            String[] resolvedStates = Arrays.copyOfRange(splicedLine, 1, symbols.length - 1);
 
             //then store result in map
-            transitions.put(splicedLine[0], resolvedStated);
+            transitions.put(splicedLine[0], resolvedStates);
         }
         sc.close();
     }
