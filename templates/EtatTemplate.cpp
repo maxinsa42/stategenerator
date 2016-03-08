@@ -2,7 +2,7 @@
 
 /*************************************************************************
 
- Etat  -  description
+ EtatTemplate  -  description
 
  -------------------
 
@@ -13,10 +13,13 @@
  *************************************************************************/
 
 
-//---------- Réalisation de la classe <Etat> (fichier Etat.cpp) --
+
+//---------- Réalisation de la classe <EtatTemplate> (fichier EtatTemplate.cpp) --
+
 
 
 //---------------------------------------------------------------- INCLUDE
+
 
 
 //-------------------------------------------------------- Include système
@@ -25,9 +28,11 @@ using namespace std;
 
 #include <iostream>
 
+
+
 //------------------------------------------------------ Include personnel
 
-#include "Etat.h"
+#include "EtatTemplate.h"
 
 
 
@@ -50,9 +55,10 @@ using namespace std;
 //-------------------------------------------------------- Fonctions amies
 
 
+
 //----------------------------------------------------- Méthodes publiques
 
-// type Etat::Méthode ( liste de paramètres )
+// type EtatTemplate::Méthode ( liste de paramètres )
 
 // Algorithme :
 
@@ -62,15 +68,15 @@ using namespace std;
 
 //} //----- Fin de Méthode
 
-void Etat::print() const{
-	cout << name << endl;
+
+bool EtatTemplate::transition (Automate & automate, Symbole *s)
+{
+	
 }
-
-
 
 //-------------------------------------------- Constructeurs - destructeur
 
-Etat::Etat ( const string name )
+EtatTemplate::EtatTemplate ( const string name ) : Etat(name)
 
 // Algorithme :
 
@@ -80,19 +86,14 @@ Etat::Etat ( const string name )
 
 #ifdef MAP
 
-    cout << "Appel au constructeur de <Etat>" << endl;
+    cout << "Appel au constructeur de <EtatTemplate>" << endl;
 
 #endif
 
-	this->name = name;
+    } //----- Fin de EtatTemplate (constructeur de copie)
+        
 
-} //----- Fin de Etat (constructeur de copie)
-
-    
-
-    
-
-    Etat::~Etat ( )
+    EtatTemplate::~EtatTemplate ( )
 
     // Algorithme :
 
@@ -102,11 +103,11 @@ Etat::Etat ( const string name )
 
 #ifdef MAP
 
-        cout << "Appel au destructeur de <Etat>" << endl;
+        cout << "Appel au destructeur de <EtatTemplate>" << endl;
 
 #endif
 
-    } //----- Fin de ~Etat
+    } //----- Fin de ~EtatTemplate
 
     
 
