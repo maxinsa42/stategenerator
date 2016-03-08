@@ -17,7 +17,7 @@ public class StateBuilder {
     
     public void buildStates()
     {
-        //access csv loaders attributes like symbols, deduction rules, etc...
+        //access csv loaders attributes like symbols, reduction rules, etc...
         System.out.println(csvLoader);
     }
     
