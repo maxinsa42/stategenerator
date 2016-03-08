@@ -2,7 +2,7 @@
 
 /*************************************************************************
 
- Etat  -  description
+ EtatTemplate  -  description
 
  -------------------
 
@@ -13,25 +13,30 @@
  *************************************************************************/
 
 
-//---------- Interface de la classe <Etat> (fichier Etat.h) ------
 
-#if ! defined ( ETAT_H )
+//---------- Interface de la classe <EtatTemplate> (fichier EtatTemplate.h) ------
 
-#define ETAT_H
+#if ! defined ( ETATTEMPLATE )
+
+#define ETATTEMPLATE
+
+
 
 //--------------------------------------------------- Interfaces utilisées
 
-#include "Symbole.h"
-#include "Automate.h"
+#include "Etat.h"
 
 //------------------------------------------------------------- Constantes
+
+
 
 //------------------------------------------------------------------ Types
 
 
+
 //------------------------------------------------------------------------
 
-// Rôle de la classe <Etat>
+// Rôle de la classe <EtatTemplate>
 
 //
 
@@ -41,7 +46,7 @@
 
 
 
-class Etat
+class EtatTemplate : public Etat
 
 {
 
@@ -53,15 +58,22 @@ public:
 
     //----------------------------------------------------- Méthodes publiques
 
-    
-    void print() const;
-   
-	virtual bool transition (Automate & automate, Symbole *s) = 0;
+    // type Méthode ( liste de paramètres );
+
+    // Mode d'emploi :
+
+    //
+
+    // Contrat :
+
+    //
+
+    bool transition (Automate & automate, Symbole *s);
     
 
     //-------------------------------------------- Constructeurs - destructeur
 
-    Etat ( const string name );
+    EtatTemplate ( const string name );
 
     // Mode d'emploi (constructeur de copie) :
 
@@ -70,9 +82,10 @@ public:
     // Contrat :
 
     //
+
     
 
-    virtual ~Etat ( );
+    virtual ~EtatTemplate ( );
 
     // Mode d'emploi :
 
@@ -103,7 +116,7 @@ private:
 protected:
 
     //----------------------------------------------------- Attributs protégés
-	string name;
+
     
 
 private:
@@ -128,9 +141,9 @@ private:
 
 
 
-//----------------------------------------- Types dépendants de <Etat>
+//----------------------------------------- Types dépendants de <EtatTemplate>
 
 
 
-#endif // ETAT_H
+#endif // ETATTEMPLATE
 
