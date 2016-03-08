@@ -71,7 +71,7 @@ using namespace std;
 
 bool EtatTemplate::transition (Automate & automate, Symbole *s)
 {
-	
+		//### CODE GOES HERE ###//
 }
 
 //-------------------------------------------- Constructeurs - destructeur
