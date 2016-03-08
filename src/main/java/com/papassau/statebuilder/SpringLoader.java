@@ -16,7 +16,9 @@ class SpringLoader
         //initialize Spring's Bean Pool
         ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 
+        
         StateBuilder builder = new StateBuilder();
+        //StateBuilder builder = (StateBuilder) context.getBean("StateBuilder");
         builder.buildStates();
     }
 
