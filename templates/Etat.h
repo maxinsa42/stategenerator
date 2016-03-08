@@ -21,6 +21,7 @@
 
 //--------------------------------------------------- Interfaces utilisées
 
+#include <vector>
 #include "Symbole.h"
 #include "Automate.h"
 
@@ -54,10 +55,11 @@ public:
     //----------------------------------------------------- Méthodes publiques
 
     
-    void print() const;
+    void Print() const;
    
-	virtual bool transition (Automate & automate, Symbole *s) = 0;
+	virtual bool Transition (Automate & automate, Symbole *s) = 0;
     
+    virtual Symbole* Reduction (vector<Symbole*> s) = 0;
 
     //-------------------------------------------- Constructeurs - destructeur
 

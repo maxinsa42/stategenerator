@@ -62,7 +62,7 @@ using namespace std;
 
 //} //----- Fin de Méthode
 
-void Etat::print() const{
+void Etat::Print() const{
 	cout << name << endl;
 }
 
