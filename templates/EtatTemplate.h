@@ -68,8 +68,8 @@ public:
 
     //
 
-    bool transition (Automate & automate, Symbole *s);
-    
+    bool Transition (Automate & automate, Symbole *s);
+    Symbole* Reduction (vector<Symbole*> s) = 0;
 
     //-------------------------------------------- Constructeurs - destructeur
 

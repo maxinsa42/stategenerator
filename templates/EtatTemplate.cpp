@@ -69,10 +69,17 @@ using namespace std;
 //} //----- Fin de Méthode
 
 
-bool EtatTemplate::transition (Automate & automate, Symbole *s)
+bool EtatTemplate::Transition (Automate & automate, Symbole *s)
 {
-		//### CODE GOES HERE ###//
+	// Generated code :
+	//### SWITCH CODE GOES HERE ###//
 }
+
+Symbole* reduction (vector<Symbole*> s)
+{
+	//### REDUCTION CODE GOES HERE ###//
+}
+
 
 //-------------------------------------------- Constructeurs - destructeur
 
