@@ -19,7 +19,21 @@
     <context:spring-configured/>
     <context:load-time-weaver aspectj-weaving="autodetect"/>
     
+    
+    <!--specify properties file location-->
+    <!--<util:properties id="props" location="classpath*:*.properties"/> -->
+    <!--<context:property-placeholder location="classpath:*.*.properties"/> --> 
+    <!--<property name="location" value="classpath:*.*.properties" /> -->
+    <!--<bean id="projectPropertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:templates.properties</value>
+        </property>
+    </bean>-->
+        
     <bean id="csvLoader" 
           class="com.papassau.statebuilder.CsvLoader"
           c:csvPath="transitions_test.csv"/>
+    
+
 </beans>
