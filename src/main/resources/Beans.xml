@@ -4,10 +4,13 @@
        xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
             http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
             http://www.springframework.org/schema/context
-            http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+            http://www.springframework.org/schema/context/spring-context-4.2.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-4.2.xsd">
     
     <!--Enable spring annotations for DI (needed for autowiring)-->
     <context:annotation-config/>
@@ -19,22 +22,14 @@
     <context:spring-configured/>
     <context:load-time-weaver aspectj-weaving="autodetect"/>
     
-    
-    <!--specify properties file location-->
-    <!--<util:properties id="props" location="classpath*:*.properties"/>-->
-    <!--<context:property-placeholder location="classpath:*.*.properties"/> --> 
-    <!--<property name="location" value="classpath*:*.properties" /> -->
-    <!--<bean id="projectPropertyConfigurer"
+    <!-- define bean loading the properities file (needed for injecting primitives using the @value annotation)-->    
+    <bean id="appConfigProperties"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location">
-            <value>classpath:templates.properties</value>
-        </property>
-    </bean>-->
-    <!--<context:property-placeholder location="classpath*:my.properties"/>-->
-        
+        <property name="location" value="stategenerator.properties" />
+    </bean>
+    
     <bean id="csvLoader" 
           class="com.papassau.statebuilder.CsvLoader"
-          c:csvPath="transitions_final.csv"/>
-    
-
+          c:csvPath="${switch.csv}"/>
 </beans>
+

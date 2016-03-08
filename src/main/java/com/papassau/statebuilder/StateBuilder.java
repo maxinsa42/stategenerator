@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,42 +19,51 @@ import org.springframework.stereotype.Component;
 @Component
 public class StateBuilder
 {
-    //@Value("${test.value}")
-    //int testValue;
-    
+
     // string added prior to all generated files' names
-    private final String generatorKey = "GeneratedState";
-    private final String switchMarker = "//### SWITCH CODE GOES HERE ###//";
-    private final String reductionMarker = "//### REDUCTION CODE GOES HERE ###//";
+    @Value("${leading.identifier}")
+    private String generatorKey;
+
+    @Value("${switch.marker}")
+    private String switchMarker;
+
+    @Value("${target.dir}")
+    private String targetDirectory;
+
+    @Value("${reduction.marker}")
+    private String reductionMarker;
+
+    @Value("${anti.reduction.message}")
+    private String antiReductionMessage;
+
+    @Value("${reductions.conf}")
+    private String reductionsConfFile;
+
+    @Value("${state.template.header}")
+    private String templateStateHeader;
+    
+    @Value("${state.template.cpp}")
+    private String templateStateCpp;
+
+    @Value("${print.reductions}")
+    private boolean printReductionTable;
+    
+    @Value("${state.template.identifier}")
+    private String stateTemplateIdentifier;
 
     @Autowired
     CsvLoader csvLoader;
 
     private Map<String, String> stateReductions;
 
-    //@Value("${test.template}")
-    //String testTemplate;
-    public CsvLoader getCsvLoader()
-    {
-        return csvLoader;
-    }
-
-    public void setCsvLoader(CsvLoader csvLoader)
-    {
-        this.csvLoader = csvLoader;
-    }
-
     public void buildStates() throws FileNotFoundException
     {
-        //System.out.println("Value = "+testValue);
-        
-        
-        
         //access csv loaders attributes like symbols, reduction rules, etc...
-        System.out.println(csvLoader);
+        if (printReductionTable)
+            System.out.println(csvLoader);
 
         //import redction rules (file)
-        String reductions = new Scanner(new File("templates/reductions.conf")).useDelimiter("\\Z").next();
+        String reductions = new Scanner(new File(reductionsConfFile)).useDelimiter("\\Z").next();
         String[] reductionsByState = reductions.split("###");
 
         //We have to start at index 1, because everything in fromt of the first ### is unusable
@@ -68,27 +76,29 @@ public class StateBuilder
             stateReductions.put(reductionKey, reductionValue);
         }
 
+        //genereate header and cpp files for each state specified (all but first line in csv)
         for (String state : csvLoader.getTransitions().keySet()) {
-
-            // HEADER FILE
             generateHeader(state);
-
-            //CPP FILE
             generateCpp(state, csvLoader.getTransitions().get(state), csvLoader.getSymbols());
         }
+        
+        System.out.println("\n\n\n***********************************************");
+        System.out.println("* Auto generation done. Your files are here:  *");
+        System.out.println("*    -> "+targetDirectory+generatorKey+"* [.cpp / .h]     *");
+        System.out.println("***********************************************");
     }
 
     private void generateHeader(String state) throws FileNotFoundException
     {
         // load header template
-        String headerTemplate = new Scanner(new File("templates/EtatTemplate.h")).useDelimiter("\\Z").next();
+        String headerTemplate = new Scanner(new File(templateStateHeader)).useDelimiter("\\Z").next();
 
         // substitute keywords
-        headerTemplate = headerTemplate.replaceAll("EtatTemplate", generatorKey + state);
-        headerTemplate = headerTemplate.replaceAll("ETATTEMPLATE", (generatorKey + state).toUpperCase());
+        headerTemplate = headerTemplate.replaceAll(stateTemplateIdentifier, generatorKey + state);
+        headerTemplate = headerTemplate.replaceAll(stateTemplateIdentifier.toUpperCase(), (generatorKey + state).toUpperCase());
 
         // write header to disk
-        PrintWriter out = new PrintWriter("/tmp/" + generatorKey + state + ".h");
+        PrintWriter out = new PrintWriter(targetDirectory + generatorKey + state + ".h");
         out.println(headerTemplate);
         out.close();
     }
@@ -96,10 +106,10 @@ public class StateBuilder
     private void generateCpp(String state, String[] targetStates, String[] symbols) throws FileNotFoundException
     {
         // load header template
-        String cppTemplate = new Scanner(new File("templates/EtatTemplate.cpp")).useDelimiter("\\Z").next();
+        String cppTemplate = new Scanner(new File(templateStateCpp)).useDelimiter("\\Z").next();
 
         // substitute keywords
-        cppTemplate = cppTemplate.replaceAll("EtatTemplate", generatorKey + state);
+        cppTemplate = cppTemplate.replaceAll(stateTemplateIdentifier, generatorKey + state);
 
         //create swich case string that replaces the template key
         StringBuilder switchBuilder = new StringBuilder("");
@@ -117,13 +127,12 @@ public class StateBuilder
                 //char numberAsChar = targetStates[symbolCounter].charAt(1);
                 //Integer.parseInt();
                 switchBuilder.append("\t\t\tautomate.Reduction(").append(reductionAmount).append(");\n");
-                switchBuilder.append("\t\t\tbreak;\n");
             }
-            else if (!targetStates[symbolCounter].equals("")) {
+            else if (!targetStates[symbolCounter].equals(""))
                 //forward to other state
                 switchBuilder.append("\t\t\tautomate.Decalage(s, new ").append(generatorKey).append(targetStates[symbolCounter]).append(")\n");
-                switchBuilder.append("\t\t\tbreak;\n");
-            }
+            switchBuilder.append("\t\t\tbreak;\n");
+
         }
         switchBuilder.append("\t}\n\treturn false;\n");
 
@@ -133,9 +142,11 @@ public class StateBuilder
         //Now substitute reductions
         if (stateReductions.containsKey(state))
             cppTemplate = cppTemplate.replaceAll(reductionMarker, stateReductions.get(state));
+        else
+            cppTemplate = cppTemplate.replaceAll(reductionMarker, antiReductionMessage);
 
         // write cpp file to disk
-        PrintWriter out = new PrintWriter("/tmp/" + generatorKey + state + ".cpp");
+        PrintWriter out = new PrintWriter(targetDirectory + generatorKey + state + ".cpp");
         out.println(cppTemplate);
         out.close();
     }
