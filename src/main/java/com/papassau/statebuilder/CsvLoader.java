@@ -41,13 +41,13 @@ public class CsvLoader
         //Extract symbols of first line (splice at each ",")
         String[] rawSymbols = sc.next().split(",", -1);
         //Then discard first position (commentary  character "#")
-        symbols = Arrays.copyOfRange(rawSymbols, 1, rawSymbols.length - 1);
+        symbols = Arrays.copyOfRange(rawSymbols, 1, rawSymbols.length);
 
         //Now that the symbals are loaded we need to extract all deuctions. Each line represents one deduction rule.
         while (sc.hasNext()) {
             //read line, splice at each "," and discard first position
             String[] splicedLine = sc.next().split(",", -1);
-            String[] resolvedStates = Arrays.copyOfRange(splicedLine, 1, symbols.length - 1);
+            String[] resolvedStates = Arrays.copyOfRange(splicedLine, 1, splicedLine.length);
 
             //then store result in map
             transitions.put(splicedLine[0], resolvedStates);

@@ -1,5 +1,6 @@
 package com.papassau.statebuilder;
 
+import java.io.FileNotFoundException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 class SpringLoader
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws FileNotFoundException
     {
         //initialize Spring's Bean Pool
         ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
