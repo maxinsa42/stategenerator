@@ -75,7 +75,7 @@ bool EtatTemplate::Transition (Automate & automate, Symbole *s)
 	//### SWITCH CODE GOES HERE ###//
 }
 
-Symbole* reduction (vector<Symbole*> s)
+Symbole* EtatTemplate::Reduction (vector<Symbole*> s)
 {
 	//### REDUCTION CODE GOES HERE ###//
 }
