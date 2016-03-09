@@ -49,15 +49,11 @@ using namespace std;
 
 //------------------------------------------------------------------------
 
-
-
 class EtatTemplate : public Etat
-
-{
-
+ {
     //----------------------------------------------------------------- PUBLIC
 
-    
+
 
 public:
 
@@ -73,12 +69,12 @@ public:
 
     //
 
-    bool Transition (Automate & automate, Symbole *s);
-    Symbole* Reduction (vector<Symbole*> s) = 0;
+    bool Transition(Automate & automate, Symbole *s);
+    Symbole* Reduction(vector<Symbole*> s) = 0;
 
     //-------------------------------------------- Constructeurs - destructeur
 
-    EtatTemplate ( const string name );
+    EtatTemplate(const string name);
 
     // Mode d'emploi (constructeur de copie) :
 
@@ -88,9 +84,9 @@ public:
 
     //
 
-    
 
-    virtual ~EtatTemplate ( );
+
+    virtual ~EtatTemplate();
 
     // Mode d'emploi :
 
@@ -100,47 +96,47 @@ public:
 
     //
 
-    
+
 
     //------------------------------------------------------------------ PRIVE
 
-    
+
 
 protected:
 
     //----------------------------------------------------- Méthodes protégées
 
-    
+
 
 private:
 
     //------------------------------------------------------- Méthodes privées
 
-    
+
 
 protected:
 
     //----------------------------------------------------- Attributs protégés
 
-    
+
 
 private:
 
     //------------------------------------------------------- Attributs privés
 
-    
+
 
     //---------------------------------------------------------- Classes amies
 
-    
+
 
     //-------------------------------------------------------- Classes privées
 
-    
+
 
     //----------------------------------------------------------- Types privés
 
-    
+
 
 };
 
