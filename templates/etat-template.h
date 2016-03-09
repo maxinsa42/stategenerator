@@ -26,9 +26,9 @@
 
 #include <vector>
 #include <string>
-#include "etat.h"
-#include "symbole.h"
-#include "automate.h"
+#include "../etat.h"
+#include "../symbole.h"
+#include "../automate.h"
 using namespace std;
 
 //------------------------------------------------------------- Constantes

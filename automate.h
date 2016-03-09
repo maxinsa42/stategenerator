@@ -1,138 +1,84 @@
-
-
-/*************************************************************************
-
- Etat  -  description
-
+﻿/*************************************************************************
+               Automate  -  Automate à pile du langage lutin.
  -------------------
+ début                : 01/03/2016
+ copyright            : (C) 2016 par Team-Papassau - H4101
+ ************************************************************************/
 
- début                : 7/03/2016
-
- copyright            : (C) 2016 par TFavrot
-
- *************************************************************************/
-
-
-//---------- Interface de la classe <Etat> (fichier Etat.h) ------
-
-#if ! defined ( ETAT_H )
-
-#define ETAT_H
+//-------- Interface de la classe <automate> (fichier automate.cpp) ----
+#if ! defined ( AUTOMATE_H )
+#define AUTOMATE_H
 
 //--------------------------------------------------- Interfaces utilisées
-
-#include <vector>
+using namespace std;
+#include <stack>
 #include "symbole.h"
-#include "automate.h"
+#include "lexer.h"
 
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
-
-
-//------------------------------------------------------------------------
-
-// Rôle de la classe <Etat>
-
-//
-
-//
+class Etat;
 
 //------------------------------------------------------------------------
+// Rôle de la classe <automate>
+// Automate à pile du langage lutin.
+//------------------------------------------------------------------------
 
-
-
-class Etat
-
+class Automate
 {
-
     //----------------------------------------------------------------- PUBLIC
-
     
-
 public:
-
     //----------------------------------------------------- Méthodes publiques
+    Symbole* Lecture();
+    // Mode d'emploi : Méthode initiant l'analyse du programme.
+    //
 
+    void Decalage(Symbole* symbole, Etat* etat);
+    // Mode d'emploi :
+    //
     
-    void Print() const;
-   
-	virtual bool Transition (Automate & automate, Symbole *s) = 0;
+    void Reduction(int nbSymboles);
+    // Mode d'emploi :
+    //
     
-    virtual Symbole* Reduction (vector<Symbole*> s) = 0;
+    //------------------------------------------------- Surcharge d'opérateurs
 
     //-------------------------------------------- Constructeurs - destructeur
-
-    Etat ( const string name );
-
-    // Mode d'emploi (constructeur de copie) :
-
-    //
-
-    // Contrat :
-
-    //
-    
-
-    virtual ~Etat ( );
-
+    Automate(Lexer& lexer);
     // Mode d'emploi :
-
     //
 
-    // Contrat :
-
+    virtual ~Automate ();
+    // Mode d'emploi :
     //
-
-    
 
     //------------------------------------------------------------------ PRIVE
 
-    
-
 protected:
-
     //----------------------------------------------------- Méthodes protégées
 
-    
-
 private:
-
     //------------------------------------------------------- Méthodes privées
 
-    
-
 protected:
-
     //----------------------------------------------------- Attributs protégés
-	string name;
-    
 
 private:
-
     //------------------------------------------------------- Attributs privés
-
+    stack<Symbole*> pileSymboles;
+    stack<Etat*> pileEtats;
+    Lexer& lexer;
     
-
     //---------------------------------------------------------- Classes amies
-
     
-
     //-------------------------------------------------------- Classes privées
-
     
-
     //----------------------------------------------------------- Types privés
-
     
-
 };
 
+//----------------------------------------- Types dépendants de <automate>
 
-
-//----------------------------------------- Types dépendants de <Etat>
-
-
-
-#endif // ETAT_H
-
+#endif // AUTOMATE_H
