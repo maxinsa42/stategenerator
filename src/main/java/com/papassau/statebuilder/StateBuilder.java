@@ -130,7 +130,7 @@ public class StateBuilder
             }
             else if (!targetStates[symbolCounter].equals(""))
                 //forward to other state
-                switchBuilder.append("\t\t\tautomate.Decalage(s, new ").append(generatorKey).append(targetStates[symbolCounter]).append(")\n");
+                switchBuilder.append("\t\t\tautomate.Decalage(s, new ").append(generatorKey).append(targetStates[symbolCounter]).append(");\n");
             switchBuilder.append("\t\t\tbreak;\n");
 
         }
