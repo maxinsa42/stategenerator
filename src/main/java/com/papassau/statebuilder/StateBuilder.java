@@ -6,9 +6,12 @@ import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Vector;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.stereotype.Component;
 
 /**
@@ -26,6 +29,9 @@ public class StateBuilder
 
     @Value("${switch.marker}")
     private String switchMarker;
+
+	@Value("${defines.marker}")
+	private String definesMarker;
 
     @Value("${target.dir}")
     private String targetDirectory;
@@ -51,6 +57,11 @@ public class StateBuilder
     @Value("${state.template.identifier}")
     private String stateTemplateIdentifier;
 
+	@Value("${header.all.states}")
+	private String headerAllStates;
+
+	Vector<String> states;
+
     @Autowired
     CsvLoader csvLoader;
 
@@ -58,6 +69,8 @@ public class StateBuilder
 
     public void buildStates() throws FileNotFoundException
     {
+		states = new Vector<String>();
+
         //access csv loaders attributes like symbols, reduction rules, etc...
         if (printReductionTable)
             System.out.println(csvLoader);
@@ -80,6 +93,7 @@ public class StateBuilder
         for (String state : csvLoader.getTransitions().keySet()) {
             generateHeader(state);
             generateCpp(state, csvLoader.getTransitions().get(state), csvLoader.getSymbols());
+			states.add(state);
         }
         
         System.out.println("\n\n\n***********************************************");
@@ -103,6 +117,32 @@ public class StateBuilder
         out.close();
     }
 
+    public void generateHeaderAllStates() throws FileNotFoundException
+    {
+		// load header template
+		String allHeaderStateTemplate = new Scanner(new File(headerAllStates)).useDelimiter("\\Z").next();
+
+		//create swich case string that replaces the template key
+		StringBuilder definesBuilder = new StringBuilder("");
+
+		//iterate over all states
+		for(String state : states)
+		{
+			definesBuilder.append("#include \"" + generatorKey + state + ".h\"\n");
+		}
+
+		System.out.println(definesBuilder.toString());
+		System.out.println(definesMarker);
+
+		//finaly replace the marker (something like: "### CODE GOES HERE ###") by the previously created stringBuilder content
+		allHeaderStateTemplate = allHeaderStateTemplate.replaceAll(definesMarker, definesBuilder.toString());
+
+		// write cpp file to disk
+		PrintWriter out = new PrintWriter("states/all-states.h");
+		out.println(allHeaderStateTemplate);
+		out.close();
+    }
+
     private void generateCpp(String state, String[] targetStates, String[] symbols) throws FileNotFoundException
     {
         // load header template
@@ -113,7 +153,7 @@ public class StateBuilder
 
         //create swich case string that replaces the template key
         StringBuilder switchBuilder = new StringBuilder("");
-        switchBuilder.append("switch (*s) {\n");
+        switchBuilder.append("switch ((int)*s) {\n");
 
         //iterate over all symbols
         for (int symbolCounter = 0; symbolCounter < symbols.length; symbolCounter++) {
@@ -134,7 +174,7 @@ public class StateBuilder
             switchBuilder.append("\t\t\tbreak;\n");
 
         }
-        switchBuilder.append("\t}\n\treturn false;\n");
+        switchBuilder.append("\t\tdefault:\n\t\t\tbreak;\n\t}\n\treturn false;\n");
 
         //finaly replace the marker (something like: "### CODE GOES HERE ###") by the previously created stringBuilder content
         cppTemplate = cppTemplate.replace(switchMarker, switchBuilder.toString());

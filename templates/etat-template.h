@@ -29,6 +29,7 @@
 #include "../etat.h"
 #include "../symbole.h"
 #include "../automate.h"
+#include "all-states.h"
 using namespace std;
 
 //------------------------------------------------------------- Constantes
@@ -70,11 +71,11 @@ public:
     //
 
     bool Transition(Automate & automate, Symbole *s);
-    Symbole* Reduction(vector<Symbole*> s) = 0;
+    Symbole* Reduction(vector<Symbole*>& s);
 
     //-------------------------------------------- Constructeurs - destructeur
 
-    EtatTemplate(const string name);
+    EtatTemplate();
 
     // Mode d'emploi (constructeur de copie) :
 

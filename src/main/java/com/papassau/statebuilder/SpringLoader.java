@@ -19,6 +19,7 @@ class SpringLoader
         
         StateBuilder builder = new StateBuilder();
         builder.buildStates();
+        builder.generateHeaderAllStates();
     }
 
 }

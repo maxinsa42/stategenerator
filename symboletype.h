@@ -19,6 +19,7 @@ enum SymboleType
 {
     ERROR,
     VAR,
+    VARp,
     CONST,
     ECRIRE,
     LIRE,
@@ -32,16 +33,25 @@ enum SymboleType
     MULTIPLIE,
     VALEUR,
     IDENTIFIANT,
+    EXPRESSION,
     EXPRESSION_MOINS,
     EXPRESSION_PLUS,
+    PDECL,
     PDECL_CONST,
     PDECL_VAR,
+    PIN,
     PIN_AFFECTER,
     PIN_ECRIRE,
     PIN_LIRE,
     PROGRAMME,
+    TERME,
     TERME_DIVISION,
-    TERME_MULTIPLICATION
+    TERME_MULTIPLICATION,
+    FACTEUR,
+    OUVRE_PAR,
+    FERME_PAR,
+    FIN,
+    CONSTp,
 };
 
 #endif // SYMBOLETYPE_H

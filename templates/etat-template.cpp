@@ -75,7 +75,7 @@ bool EtatTemplate::Transition (Automate & automate, Symbole *s)
 	//### SWITCH CODE GOES HERE ###//
 }
 
-Symbole* EtatTemplate::Reduction (vector<Symbole*> s)
+Symbole* EtatTemplate::Reduction (vector<Symbole*>& s)
 {
 //### REDUCTION CODE GOES HERE ###//
 }
@@ -83,7 +83,7 @@ Symbole* EtatTemplate::Reduction (vector<Symbole*> s)
 
 //-------------------------------------------- Constructeurs - destructeur
 
-EtatTemplate::EtatTemplate ( const string name ) : Etat(name)
+EtatTemplate::EtatTemplate ()
 
 // Algorithme :
 
